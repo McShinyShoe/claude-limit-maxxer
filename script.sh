@@ -27,7 +27,9 @@ umask 077
     echo "PROMPT=$(quote "$PROMPT")"
 } > /etc/cron-job.env
 
-echo "$CRON_SCHEDULE /usr/local/bin/job.sh >> $LOG_FILE 2>&1" | crontab -
+mkdir -p /etc/crontabs
+echo "$CRON_SCHEDULE /usr/local/bin/job.sh >> $LOG_FILE 2>&1" > /etc/crontabs/root
 echo "Installed cron job: $CRON_SCHEDULE -> $API_URL ($MODEL)"
 
-exec crond -f
+# busybox crond: -f foreground, -d 8 logs to stderr
+exec crond -f -d 8
