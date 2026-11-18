@@ -4,3 +4,5 @@ services:
     container_name: claude-limit-maxxer
     restart: unless-stopped
     pull_policy: always
+    env_file:
+      - stack.env
